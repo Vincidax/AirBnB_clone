@@ -12,6 +12,11 @@ from models.review import Review
 import re
 
 class HBNBCommand(cmd.Cmd):
+    """
+    HBNBCommand is a command interpreter for the AirBnB clone project.
+    It inherits from the cmd.Cmd class of the cmd module in Python.
+    """
+
     prompt = '(hbnb) '
     classes = ["BaseModel", "User", "State", "City", "Amenity", "Place", "Review"]
     def do_create(self, args):
