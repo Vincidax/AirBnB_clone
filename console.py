@@ -9,6 +9,7 @@ from models.city import City
 from models.amenity import Amenity
 from models.place import Place
 from models.review import Review
+import re
 
 class HBNBCommand(cmd.Cmd):
     prompt = '(hbnb) '
@@ -90,6 +91,55 @@ class HBNBCommand(cmd.Cmd):
             if key in storage.all():
                 setattr(storage.all()[key], args[2], args[3].strip("\""))
                 storage.all()[key].save()
+
+    def default(self, line):
+        args = line.split(".")
+        if len(args) > 1:
+            if args[1] == "all()":
+                self.do_all(args[0])
+            elif args[1] == "count()":
+                self.do_count(args[0])
+            elif re.match(r"show\(\"(.*)\"\)", args[1]):
+                id = re.match(r"show\(\"(.*)\"\)", args[1]).group(1)
+                self.do_show(args[0] + " " + id)
+            elif re.match(r"destroy\(\"(.*)\"\)", args[1]):
+                id = re.match(r"destroy\(\"(.*)\"\)", args[1]).group(1)
+                self.do_destroy(args[0] + " " + id)
+            elif re.match(r"update\(\"(.*)\", (.*)\)", args[1]):
+                match = re.match(r"update\(\"(.*)\", (.*)\)", args[1])
+                id = match.group(1)
+                dictionary = match.group(2)
+                self.do_update(args[0] + " " + id + " " + dictionary)
+
+    def do_update(self, args):
+        """Updates an instance based on the class name and id by adding or updating an attribute (save the change into the JSON file)."""
+        args = args.split()
+        if len(args) == 0:
+            print("** class name missing **")
+        elif args[0] not in self.classes:  # Ensure self.classes is defined elsewhere
+            print("** class doesn't exist **")
+        elif len(args) == 1:
+            print("** instance id missing **")
+        elif args[0] + "." + args[1] not in storage.all():  # Ensure storage is defined elsewhere
+            print("** no instance found **")
+        elif len(args) == 2:
+            print("** attribute name missing **")
+        elif len(args) == 3:
+            print("** value missing **")
+        else:
+            key = args[0] + "." + args[1]
+            if key in storage.all():  # Ensure storage.all() is defined elsewhere
+                setattr(storage.all()[key], args[2], args[3].strip("\""))
+                storage.all()[key].save()
+
+
+    def do_count(self, arg):
+        """Counts the number of instances of a class"""
+        count = 0
+        for key in storage.all():
+            if arg in key:
+                count += 1
+        print(count)
 
     def do_quit(self, args):
         """Quit command to exit the program"""
