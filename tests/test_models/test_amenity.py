@@ -2,6 +2,7 @@ import unittest
 from models.amenity import Amenity
 from models.base_model import BaseModel
 
+
 class TestAmenity(unittest.TestCase):
     """Test the functionality of the Amenity class"""
 
@@ -25,6 +26,7 @@ class TestAmenity(unittest.TestCase):
     def test_attribute_types(self):
         """Test the type of Amenity class attributes"""
         self.assertIsInstance(self.amenity.name, str)
+
 
 if __name__ == '__main__':
     unittest.main()

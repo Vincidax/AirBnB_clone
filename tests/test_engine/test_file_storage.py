@@ -3,7 +3,9 @@ import os
 from models.engine.file_storage import FileStorage
 from models.base_model import BaseModel
 
+
 class TestFileStorage(unittest.TestCase):
+
     def setUp(self):
         """Set up for the tests"""
         self.file_storage = FileStorage()
@@ -23,7 +25,10 @@ class TestFileStorage(unittest.TestCase):
     def test_new(self):
         """Test the new method"""
         self.file_storage.new(self.base_model)
-        key = "{}.{}".format(type(self.base_model).__name__, self.base_model.id)
+        key = "{}.{}".format(
+            type(self.base_model).__name__,
+            self.base_model.id
+        )
         self.assertIn(key, self.file_storage.all())
 
     def test_save(self):
@@ -36,8 +41,11 @@ class TestFileStorage(unittest.TestCase):
         """Test the reload method"""
         self.file_storage.new(self.base_model)
         self.file_storage.save()
+        key = "{}.{}".format(
+            type(self.base_model).__name__,
+            self.base_model.id
+        )
         self.file_storage.reload()
-        key = "{}.{}".format(type(self.base_model).__name__, self.base_model.id)
         self.assertIn(key, self.file_storage.all())
 
     def test_new_none(self):
@@ -50,6 +58,7 @@ class TestFileStorage(unittest.TestCase):
         if os.path.exists("file.json"):
             os.remove("file.json")
         self.file_storage.reload()  # Should not raise
+
 
 if __name__ == '__main__':
     unittest.main()
