@@ -2,15 +2,22 @@ import unittest
 from models.place import Place
 from models.base_model import BaseModel
 
+
 class TestPlace(unittest.TestCase):
-    """Test the functionality of the Place class"""
+    """
+    Test the functionality of the Place class
+    """
 
     def setUp(self):
-        """Set up the tests"""
+        """
+        Set up the tests
+        """
         self.place = Place()
 
     def test_init(self):
-        """Test the __init__ method"""
+        """
+        Test the __init__ method
+        """
         self.assertIsInstance(self.place, Place)
         self.assertEqual(self.place.city_id, "")
         self.assertEqual(self.place.user_id, "")
@@ -25,11 +32,15 @@ class TestPlace(unittest.TestCase):
         self.assertEqual(self.place.amenity_ids, [])
 
     def test_inheritance(self):
-        """Test if Place class inherits from BaseModel"""
+        """
+        Test if Place class inherits from BaseModel
+        """
         self.assertIsInstance(self.place, BaseModel)
 
     def test_attributes(self):
-        """Test if Place class contains the right attributes"""
+        """
+        Test if Place class contains the right attributes
+        """
         self.assertTrue(hasattr(self.place, "city_id"))
         self.assertTrue(hasattr(self.place, "user_id"))
         self.assertTrue(hasattr(self.place, "name"))
@@ -41,6 +52,7 @@ class TestPlace(unittest.TestCase):
         self.assertTrue(hasattr(self.place, "latitude"))
         self.assertTrue(hasattr(self.place, "longitude"))
         self.assertTrue(hasattr(self.place, "amenity_ids"))
+
 
 if __name__ == '__main__':
     unittest.main()

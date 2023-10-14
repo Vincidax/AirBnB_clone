@@ -1,8 +1,15 @@
 #!/usr/bin/python3
+"""
+This module contains the Place class
+"""
 
 from .base_model import BaseModel
 
+
 class Place(BaseModel):
+    """
+    Place class inherits from BaseModel
+    """
     city_id = ""
     user_id = ""
     name = ""

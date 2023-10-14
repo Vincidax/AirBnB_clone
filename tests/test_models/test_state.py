@@ -1,30 +1,42 @@
 import unittest
-from models.state import State
+from models.review import Review
 from models.base_model import BaseModel
 
-class TestState(unittest.TestCase):
-    """Test the functionality of the State class"""
+
+class TestReview(unittest.TestCase):
+    """
+    Test the functionality of the Review class
+    """
 
     def setUp(self):
-        """Set up the tests"""
-        self.state = State()
+        """
+        Set up the tests
+        """
+        self.review = Review()
 
     def test_init(self):
-        """Test the __init__ method"""
-        self.assertIsInstance(self.state, State)
-        self.assertEqual(self.state.name, "")
+        """
+        Test the __init__ method
+        """
+        self.assertIsInstance(self.review, Review)
+        self.assertEqual(self.review.place_id, "")
+        self.assertEqual(self.review.user_id, "")
+        self.assertEqual(self.review.text, "")
 
     def test_inheritance(self):
-        """Test if State class inherits from BaseModel"""
-        self.assertIsInstance(self.state, BaseModel)
+        """
+        Test if Review class inherits from BaseModel
+        """
+        self.assertIsInstance(self.review, BaseModel)
 
     def test_attributes(self):
-        """Test if State class contains name attribute"""
-        self.assertTrue(hasattr(self.state, "name"))
+        """
+        Test if Review class contains the right attributes
+        """
+        self.assertTrue(hasattr(self.review, "place_id"))
+        self.assertTrue(hasattr(self.review, "user_id"))
+        self.assertTrue(hasattr(self.review, "text"))
 
-    def test_attribute_types(self):
-        """Test the type of State class attributes"""
-        self.assertIsInstance(self.state.name, str)
 
 if __name__ == '__main__':
     unittest.main()
