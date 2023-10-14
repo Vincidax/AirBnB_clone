@@ -2,6 +2,7 @@ import unittest
 from models.review import Review
 from models.base_model import BaseModel
 
+
 class TestReview(unittest.TestCase):
     """Test the functionality of the Review class"""
 
@@ -25,6 +26,7 @@ class TestReview(unittest.TestCase):
         self.assertTrue(hasattr(self.review, "place_id"))
         self.assertTrue(hasattr(self.review, "user_id"))
         self.assertTrue(hasattr(self.review, "text"))
+
 
 if __name__ == '__main__':
     unittest.main()

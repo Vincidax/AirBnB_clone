@@ -2,6 +2,7 @@ import unittest
 from models.city import City
 from models.base_model import BaseModel
 
+
 class TestCity(unittest.TestCase):
     """Test the functionality of the City class"""
 
@@ -28,6 +29,7 @@ class TestCity(unittest.TestCase):
         """Test the type of City class attributes"""
         self.assertIsInstance(self.city.state_id, str)
         self.assertIsInstance(self.city.name, str)
+
 
 if __name__ == '__main__':
     unittest.main()

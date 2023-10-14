@@ -2,6 +2,7 @@ import unittest
 from models.state import State
 from models.base_model import BaseModel
 
+
 class TestState(unittest.TestCase):
     """Test the functionality of the State class"""
 
@@ -25,6 +26,7 @@ class TestState(unittest.TestCase):
     def test_attribute_types(self):
         """Test the type of State class attributes"""
         self.assertIsInstance(self.state.name, str)
+
 
 if __name__ == '__main__':
     unittest.main()

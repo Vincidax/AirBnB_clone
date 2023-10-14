@@ -2,6 +2,7 @@ import unittest
 from models.user import User
 from models.base_model import BaseModel
 
+
 class TestUser(unittest.TestCase):
     """Test the functionality of the User class"""
 
@@ -34,6 +35,7 @@ class TestUser(unittest.TestCase):
         self.assertIsInstance(self.user.password, str)
         self.assertIsInstance(self.user.first_name, str)
         self.assertIsInstance(self.user.last_name, str)
+
 
 if __name__ == '__main__':
     unittest.main()

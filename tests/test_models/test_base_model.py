@@ -18,7 +18,8 @@ class TestBaseModel(unittest.TestCase):
 
     def test_str(self):
         """Test the __str__ method"""
-        expected_output = "[BaseModel] ({}) {}".format(self.model.id, self.model.__dict__)
+        expected_output = "[BaseModel] ({}) {}".format(
+            self.model.id, self.model.__dict__)
         self.assertEqual(str(self.model), expected_output)
 
     def test_save(self):
@@ -35,5 +36,5 @@ class TestBaseModel(unittest.TestCase):
         self.assertEqual(model_dict['created_at'], self.model.created_at.isoformat())
         self.assertEqual(model_dict['updated_at'], self.model.updated_at.isoformat())
 
-if __name__ == '__main__':
+if __name__ == '__main':
     unittest.main()
