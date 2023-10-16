@@ -2,6 +2,7 @@ import unittest
 from datetime import datetime
 from models.base_model import BaseModel
 
+
 class TestBaseModel(unittest.TestCase):
     """Test the functionality of the BaseModel class"""
 
@@ -33,8 +34,11 @@ class TestBaseModel(unittest.TestCase):
         model_dict = self.model.to_dict()
         self.assertEqual(model_dict['__class__'], 'BaseModel')
         self.assertEqual(model_dict['id'], self.model.id)
-        self.assertEqual(model_dict['created_at'], self.model.created_at.isoformat())
-        self.assertEqual(model_dict['updated_at'], self.model.updated_at.isoformat())
+        self.assertEqual(
+                model_dict['created_at'], self.model.created_at.isoformat())
+        self.assertEqual(
+                model_dict['updated_at'], self.model.updated_at.isoformat())
+
 
 if __name__ == '__main':
     unittest.main()
