@@ -1,7 +1,6 @@
 #!/usr/bin/python3
-
+"""Defines the HBnB console."""
 import cmd
-import re
 from models import storage
 from models.base_model import BaseModel
 from models.user import User
@@ -10,12 +9,13 @@ from models.city import City
 from models.amenity import Amenity
 from models.place import Place
 from models.review import Review
+import re
 
 
 class HBNBCommand(cmd.Cmd):
-    """
-    HBNBCommand is a command interpreter for the AirBnB clone project.
-    It inherits from the cmd.Cmd class of the cmd module in Python.
+    """Defines the HolbertonBnB command interpreter.
+    Attributes:
+        prompt (str): The command prompt.
     """
 
     prompt = '(hbnb) '
@@ -29,9 +29,30 @@ class HBNBCommand(cmd.Cmd):
         "Review"
     ]
 
+    def default(self, line):
+        args = re.match(r'(\w+)\.(\w+)\((.*?)\)', line)
+        if args:
+            class_name = args.group(1)
+            method_name = args.group(2)
+            arguments = args.group(3)
+            full_command = f"{class_name} {arguments}"
+
+            if method_name == "all":
+                self.do_all(full_command)
+            elif method_name == "count":
+                self.do_count(class_name)
+            elif method_name == "show":
+                self.do_show(full_command)
+            elif method_name == "destroy":
+                self.do_destroy(full_command)
+            elif method_name == "update":
+                self.do_update(full_command)
+        else:
+            super().default(line)
+
     def do_create(self, args):
         """
-        Creates a new instance of BaseModel, saves it (to the JSON file)
+        Creates a new instance of BaseModel, saves it (to the JSON file),
         and prints the id.
         """
         args = args.split()
@@ -66,7 +87,7 @@ class HBNBCommand(cmd.Cmd):
     def do_destroy(self, args):
         """
         Deletes an instance based on the class name and
-        id (save the change into the JSON file).
+        id (saves the change into the JSON file).
         """
         args = args.split()
         if len(args) == 0:
@@ -85,7 +106,7 @@ class HBNBCommand(cmd.Cmd):
 
     def do_all(self, args):
         """
-        Prints all string representation of all instances based or
+        Prints string representations of all instances based or
         not on the class name.
         """
         args = args.split()
@@ -99,10 +120,6 @@ class HBNBCommand(cmd.Cmd):
                     print(value)
 
     def do_update(self, args):
-        """
-        Updates an instance based on the class name and id by adding or
-        updating attribute (save the change into the JSON file).
-        """
         args = args.split()
         if len(args) == 0:
             print("** class name missing **")
@@ -119,30 +136,23 @@ class HBNBCommand(cmd.Cmd):
         else:
             key = args[0] + "." + args[1]
             if key in storage.all():
-                setattr(storage.all()[key], args[2], args[3].strip("\""))
-                storage.all()[key].save()
-
-    def default(self, line):
-        args = line.split(".")
-        if len(args) > 1:
-            if args[1] == "all()":
-                self.do_all(args[0])
-            elif args[1] == "count()":
-                self.do_count(args[0])
-            elif re.match(r"show\(\"(.*)\"\)", args[1]):
-                id = re.match(r"show\(\"(.*)\"\)", args[1]).group(1)
-                self.do_show(args[0] + " " + id)
-            elif re.match(r"destroy\(\"(.*)\"\)", args[1]):
-                id = re.match(r"destroy\(\"(.*)\"\)", args[1]).group(1)
-                self.do_destroy(args[0] + " " + id)
-            elif re.match(r"update\(\"(.*)\", (.*)\)", args[1]):
-                match = re.match(r"update\(\"(.*)\", (.*)\)", args[1])
-                id = match.group(1)
-                dictionary = match.group(2)
-                self.do_update(args[0] + " " + id + " " + dictionary)
+                if args[2][0] == '{' and args[-1][-1] == '}':
+                    try:
+                        dictionary = eval(args[2])
+                        if isinstance(dictionary, dict):
+                            for k, v in dictionary.items():
+                                setattr(storage.all()[key], k, v)
+                            storage.all()[key].save()
+                    except (SyntaxError, NameError):
+                        print("** invalid format **")
+                else:
+                    setattr(storage.all()[key], args[2], args[3].strip("\""))
+                    storage.all()[key].save()
 
     def do_count(self, arg):
-        """Counts the number of instances of a class"""
+        """
+        Counts the number of instances of a class.
+        """
         count = 0
         for key in storage.all():
             if arg in key:
@@ -150,8 +160,17 @@ class HBNBCommand(cmd.Cmd):
         print(count)
 
     def do_quit(self, args):
-        """Quit command to exit the program"""
+        """
+        Quit command to exit the program.
+        """
         return True
 
     def do_EOF(self, args):
-        """EOF command to exit the program"""
+        """
+        EOF command to exit the program.
+        """
+        return True
+
+
+if __name__ == '__main__':
+    HBNBCommand().cmdloop()
